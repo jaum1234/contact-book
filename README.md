@@ -6,6 +6,6 @@ This application is designed to showcase skills in back-end development, integra
 
 ## System Design
 
-Usually, I would organize the project by bounded contexts, following DDD practices. Each context would encapsulate a specific subdomain. So for example, I could have two bounded contexts: the `contact` context the and `address` context. If any authentication functionality was implemented, I could create an `iam` context.
+Usually, I would organize the project by bounded contexts, following DDD practices. Each context would encapsulate a specific subdomain. So for example, I could have two bounded contexts: the `contact` context and the `address` context. If any authentication functionality was implemented, I could create an `iam` context.
 
 However, since laravel already has a very opinionated and layered structure, and time is short, I decided to stick to the default structure.
