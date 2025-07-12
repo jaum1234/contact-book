@@ -14,7 +14,7 @@ class ContactController extends Controller
 
     public function store(Request $request) {
         Log::info('Incoming request to store contact', [
-            'request' => $request->all()
+            'request' => $request->except(['phone_number', 'email'])
         ]);
 
         $validated = $request->validate([
