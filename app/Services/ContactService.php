@@ -6,6 +6,7 @@ use App\Exceptions\InvalidPostalCodeException;
 use App\Models\Address;
 use App\Models\Contact;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -65,7 +66,7 @@ class ContactService {
     Log::info('Contact saved successfully', ['email' => $contact->email]);
   }
 
-  public function findAll($filters = []) {
+  public function findAll($filters = []): LengthAwarePaginator {
     $query = Contact::query();
 
     if (!empty($filters['name'])) {
@@ -76,7 +77,7 @@ class ContactService {
       $query->where('email', 'like', '%' . $filters['email'] . '%');
     }
 
-    $result = $query->paginate(config('pagination.per_page', 20));
+    $result = $query->paginate(config('pagination.per_page'));
 
     Log::info('Contacts fetched successfully', [
       'total' => $result->total(),
