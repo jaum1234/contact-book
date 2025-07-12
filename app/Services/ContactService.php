@@ -4,10 +4,20 @@ namespace App\Services;
 
 use App\Models\Address;
 use App\Models\Contact;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class ContactService {
+
+  /**
+   * Create a new contact with address.
+   * 
+   * @param array $data
+   * @return void
+   * 
+   * @throws RequestException
+   */
   public function create(array $data) {
     if (!Address::where('postal_code', $data['postal_code'])->first()) {
       Log::info('Fetching address information from ViaCEP', ['postal_code' => $data['postal_code']]);
