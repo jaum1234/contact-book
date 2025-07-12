@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
+use ContactService;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
+    public function __construct(
+        private ContactService $contactService
+    ){}
+
     public function store(Request $request) {
         
         $validated = $request->validate([
@@ -16,12 +20,7 @@ class ContactController extends Controller
             'postal_code' => 'required|string|max:10',
         ]);
 
-        $contact = new Contact();
-        $contact->name = $validated['name'];
-        $contact->email = $validated['email'];
-        $contact->phone_number = $validated['phone_number'];
-        $contact->postal_code = $validated['postal_code'];
-        $contact->save();
+        $this->contactService->create($validated);        
 
         return response()->json(['message' => 'Contact created successfully'], 201);
 
