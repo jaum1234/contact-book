@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\InvalidPostalCodeException;
 use App\Models\Address;
 use App\Services\ContactService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -112,4 +113,27 @@ describe('Add Contact Test', function () {
             'postal_code' => '0000000',
         ]);
     })->throws(RequestException::class); 
+
+    test('given valid postal code, but it does not exists, then contact creation fails', function () {
+        // Arrange
+        $contactData = [
+            'name' => 'Nonexistent Postal Code',
+            'email' => 'nonexistent.postal@example.com',
+            'phone_number' => '111111111',
+            'postal_code' => '00000000',
+        ];
+
+        $service = new ContactService();
+
+        // Act
+        $service->create($contactData);
+
+        // Assert
+        $this->assertDatabaseMissing('contacts', [
+            'email' => 'nonexistent.postal@example.com',
+            'name' => 'Nonexistent Postal Code',
+            'phone_number' => '111111111',
+            'postal_code' => '00000000',
+        ]);
+    })->throws(InvalidPostalCodeException::class);
 });
