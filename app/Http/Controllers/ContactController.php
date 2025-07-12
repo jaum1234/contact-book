@@ -30,4 +30,34 @@ class ContactController extends Controller
         
         return response()->json(['message' => 'Contact created successfully'], 201);
     }
+
+    public function index(Request $request) {
+        Log::info('Fetching contacts', [
+            'filters' => $request->all()
+        ]);
+
+        $validated = $request->validate([
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+        ]);
+
+        $contacts = $this->contactService->findAll($validated);
+
+        Log::info('Contacts fetched successfully', [
+            'count' => count($contacts)
+        ]);
+
+        return response()->json([
+            'message' => 'Contacts fetched successfully',
+            'data' => $contacts->items(),
+            'pagination' => [
+                'total_items' => $contacts->total(),
+                'total_pages' => $contacts->lastPage(),
+                'current_page' => $contacts->currentPage(),
+                'per_page' => $contacts->perPage(),
+                'next_page' => $contacts->nextPageUrl(),
+                'prev_page' => $contacts->previousPageUrl(),
+            ]
+        ]);
+    }
 }

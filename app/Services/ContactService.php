@@ -64,4 +64,26 @@ class ContactService {
 
     Log::info('Contact saved successfully', ['email' => $contact->email]);
   }
+
+  public function findAll($filters = []) {
+    $query = Contact::query();
+
+    if (!empty($filters['name'])) {
+      $query->where('name', 'like', '%' . $filters['name'] . '%');
+    }
+
+    if (!empty($filters['email'])) {
+      $query->where('email', 'like', '%' . $filters['email'] . '%');
+    }
+
+    $result = $query->paginate(config('pagination.per_page', 20));
+
+    Log::info('Contacts fetched successfully', [
+      'total' => $result->total(),
+      'per_page' => $result->perPage(),
+      'current_page' => $result->currentPage(),
+    ]);
+
+    return $result;
+  }
 }
