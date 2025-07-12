@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('contact', function (Blueprint $table) {
+        Schema::table('contacts', function (Blueprint $table) {
             $table->foreign('postal_code')->references('postal_code')->on('addresses');
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('contact', function (Blueprint $table) {
+        Schema::table('contacts', function (Blueprint $table) {
             $table->dropForeign(['postal_code']);
         });
     }
