@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\InvalidPostalCodeException;
 use App\Models\Address;
 use App\Models\Contact;
 use Illuminate\Http\Client\RequestException;
@@ -25,6 +26,11 @@ class ContactService {
       $addressInfo = Http::get(config('services.viacep.base_url') . $data['postal_code'] . '/json/')
         ->throw()  
         ->json();
+
+      if (isset($addressInfo['erro']) && $addressInfo['erro']) {
+        Log::error('Invalid postal code provided', ['postal_code' => $data['postal_code']]);
+        throw new InvalidPostalCodeException($data['postal_code']);
+      }
   
       Log::info('Address information retrieved successfully', ['address' => $addressInfo]);
   
