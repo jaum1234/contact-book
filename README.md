@@ -32,19 +32,24 @@ cp .env.example .env
 docker compose up -d --build
 ```
 
-6. Run the migrations:
+6. Clear the config:
+```
+docker compose exec app php artisan config:clear
+```
+
+7. Run the migrations:
 ```
 docker compose exec app php artisan migrate
 ```
 
-7. Generate the app key:
+8. Generate the app key:
 ```
 docker compose exec app php artisan key:generate
 ```
 
 ## Running Unit Tests
 
-1. Start the container, if not already running:
+1. Start the containers, if not already running:
 ```
 docker compose up -d
 ```
