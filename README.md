@@ -5,6 +5,7 @@ Table of Contents
 - [Running with Docker](#running-with-docker)
 - [Running Unit Tests](#running-unit-tests)
 - [System Design](#system-design)
+- [Development Process](#development-process)
 
 ## Overview
 
