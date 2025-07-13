@@ -1,0 +1,159 @@
+openapi: 3.0.3
+info:
+  title: Contact Book API
+  version: 1.0.0
+  description: API for managing contacts in the Contact Book application.
+servers:
+  - url: http://localhost:8000/api
+paths:
+  /contacts:
+    post:
+      summary: Create a new contact
+      tags:
+        - Contacts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactCreateRequest'
+      parameters:
+        - $ref: '#/components/parameters/AcceptHeader'
+      responses:
+        '201':
+          description: Contact created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+    get:
+      summary: List contacts
+      tags:
+        - Contacts
+      parameters:
+        - $ref: '#/components/parameters/AcceptHeader'
+        - in: query
+          name: name
+          schema:
+            type: string
+          required: false
+          description: Filter by contact name
+        - in: query
+          name: email
+          schema:
+            type: string
+            format: email
+          required: false
+          description: Filter by contact email
+      responses:
+        '200':
+          description: Contacts fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactListResponse'
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+components:
+  parameters:
+    AcceptHeader:
+      name: Accept
+      in: header
+      required: true
+      schema:
+        type: string
+        enum: [application/json]
+      description: Must be set to application/json
+  schemas:
+    ContactCreateRequest:
+      type: object
+      required:
+        - name
+        - email
+        - phone_number
+        - postal_code
+      properties:
+        name:
+          type: string
+          maxLength: 255
+        email:
+          type: string
+          format: email
+        phone_number:
+          type: string
+          maxLength: 20
+        postal_code:
+          type: string
+          pattern: '^\d{8}$'
+          description: 8-digit postal code
+    MessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    Contact:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone_number:
+          type: string
+        postal_code:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    ContactListResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contact'
+        pagination:
+          type: object
+          properties:
+            total_items:
+              type: integer
+            total_pages:
+              type: integer
+            current_page:
+              type: integer
+            per_page:
+              type: integer
+            next_page:
+              type: string
+              nullable: true
+            prev_page:
+              type: string
+              nullable: true
+    ValidationErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
