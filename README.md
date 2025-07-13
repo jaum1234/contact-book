@@ -86,4 +86,4 @@ Usually, I would organize the project by bounded contexts, following DDD practic
 
 If I were to extend the project, I would create the `IAM` context, which would contain the `User` aggregate, responsible for managing the user authentication and authorization.
 
-However, since laravel already has a very opinionated and layered structure, and time is short, I decided to stick to the default structure.
+However, since laravel already has a very opinionated and layered structure, and time is short, I decided to stick to the default structure. Classes like the `ContactController` and `ContactService` are still present, but they are not organized by bounded contexts. Instead, they are placed in the `app/Http/Controllers` and `app/Services` directories, respectively.
