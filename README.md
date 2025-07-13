@@ -87,3 +87,12 @@ Usually, I would organize the project by bounded contexts, following DDD practic
 If I were to extend the project, I would create the `IAM` context, which would contain the `User` aggregate, responsible for managing the user authentication and authorization.
 
 However, since laravel already has a very opinionated and layered structure, and time is short, I decided to stick to the default structure. Classes like the `ContactController` and `ContactService` are still present, but they are not organized by bounded contexts. Instead, they are placed in the `app/Http/Controllers` and `app/Services` directories, respectively.
+
+## Development Proccess
+
+The development process for this project was as follows:
+
+1. **Task Breakdown**: The project was divided into smaller tasks, such as implementing the contact management features, writing the API documentation, setting up the Docker environment and etc. Each task was represented as a GitHub issue.
+2. **Feature Branches**: Each task was developed in a separate feature branch, following the naming convention `feat/<task-name>`. This allowed for easier code reviews and organization.
+3. **Unit Tests**: Feature tests were written for each feature, ensuring that the code was tested and working as expected. The tests were placed in the `tests/Feature` directory. Since there ware no complex business logic, I opted for feature tests instead of unit tests.
+4. **Pull Requests**: Once a feature was completed, a pull request was created to merge the feature branch into the `master` branch.
