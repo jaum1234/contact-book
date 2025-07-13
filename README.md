@@ -11,6 +11,7 @@ This application is designed to showcase skills in back-end development, integra
 2. Clone the project:
 ```
 git clone https://github.com/jaum1234/contact-book.git
+cd contact-book
 ```
 
 3. Create the .env file from the .env.example file:
