@@ -27,7 +27,8 @@ cd contact-book
 cp .env.example .env
 ```
 
-4. Setup the database environment variables in the .env file:
+4. Setup the app and database environment variables in the .env file:
+  - `APP_DEBUG`: Set to `false` for production.
   - `DB_ROOT_PASSWORD`: The root password for the MySQL database.
   - `DB_DATABASE`: The name of the database to be created.
   - `DB_USERNAME`: The username for accessing the database. Since the root user is used, this can be set to `root`.
