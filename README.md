@@ -48,6 +48,8 @@ docker compose exec app php artisan migrate
 docker compose exec app php artisan key:generate
 ```
 
+That's it! The application should now be running. You can access it at `http://localhost:8000`.
+
 ## Running Unit Tests
 
 1. Start the containers, if not already running:
@@ -57,7 +59,7 @@ docker compose up -d
 
 2. Run the tests:
 ```
-docker compose exec app php artisan test
+docker compose exec app php artisan test --testsuite=Feature
 ```
 
 ## System Design
