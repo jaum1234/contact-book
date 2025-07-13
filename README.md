@@ -1,5 +1,13 @@
 # Contact Book
 
+Table of Contents
+- [Overview](#overview)
+- [Running with Docker](#running-with-docker)
+- [Running Unit Tests](#running-unit-tests)
+- [System Design](#system-design)
+
+## Overview
+
 This project is a contact book application. The main goal is to create a functional address book that allows users to manage their contacts efficiently, featuring essential functionalities such as adding and searching contact information.
 
 This application is designed to showcase skills in back-end development, integration with external APIs, and database management.
@@ -28,22 +36,31 @@ cp .env.example .env
   - `DB_PORT`: The port on which the database service is running, typically `3306` for MySQL.
   - `DB_CONNECTION`: The type of database connection, which is `mysql` for this project.
 
-5. Build and run the Docker containers:
+5. Create the .env.testing file from the .env.testing.example file:
+```
+cp .env.testing.example .env.testing
+```
+
+6. Setup the testing database environment variables in the .env.testing file:
+  - `DB_DATABASE`: The name of the testing database to be created. Should use the in memory SQLite database for testing.
+  - `DB_CONNECTION`: The type of database connection, which is `sqlite` for this project.
+
+7. Build and run the Docker containers:
 ```
 docker compose up -d --build
 ```
 
-6. Clear the config:
+8. Clear the config:
 ```
 docker compose exec app php artisan config:clear
 ```
 
-7. Run the migrations:
+9. Run the migrations:
 ```
 docker compose exec app php artisan migrate
 ```
 
-8. Generate the app key:
+10. Generate the app key:
 ```
 docker compose exec app php artisan key:generate
 ```
@@ -64,6 +81,8 @@ docker compose exec app php artisan test --testsuite=Feature
 
 ## System Design
 
-Usually, I would organize the project by bounded contexts, following DDD practices. Each context would encapsulate a specific subdomain. So for example, I could have two bounded contexts: the `contact` context and the `address` context. If any authentication functionality was implemented, I could create an `iam` context.
+Usually, I would organize the project by bounded contexts, following DDD practices. Each context would encapsulate a specific subdomain. For that project, I would create the `Contact Management` context, which would include the `Contact` aggregate, composed of its attributes and the `Address` value object, the `ContactController`, responsible for handling HTTP requests related to contacts, and the `ContactService`, which would contain the business logic for managing contacts.
+
+If I were to extend the project, I would create the `IAM` context, which would contain the `User` aggregate, responsible for managing the user authentication and authorization.
 
 However, since laravel already has a very opinionated and layered structure, and time is short, I decided to stick to the default structure.
